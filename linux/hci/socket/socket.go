@@ -3,6 +3,7 @@
 package socket
 
 import (
+	"C"
 	"fmt"
 	"io"
 	"sync"
@@ -41,12 +42,62 @@ var (
 	hciGetDeviceInfo = ioR(typHCI, 211, ioctlSize) // HCIGETDEVINFO
 )
 
+const (
+	//FlagHciUp UP device flag
+	FlagHciUp = 0
+	FlagHciInit
+	FlagHciRunning
+	FlagHciPscan
+	FlagHciIscan
+	FlagHciAuth
+	FlagHciEncrypt
+	FlagHciInquiry
+	FlagHciRaw
+)
+
 type devListRequest struct {
 	devNum     uint16
 	devRequest [hciMaxDevices]struct {
 		id  uint16
 		opt uint32
 	}
+}
+
+//HciDevStats carry stats about the device
+type HciDevStats struct {
+	ErrRX  uint32
+	ErrTX  uint32
+	CmdTX  uint32
+	EvtRX  uint32
+	ACLTX  uint32
+	ACLRX  uint32
+	ScoTX  uint32
+	ScoRX  uint32
+	ByteRX uint32
+	ByteTX uint32
+}
+
+//BdAddr addr
+type BdAddr struct {
+	B []byte
+}
+
+// HciDevInfo carry
+type HciDevInfo struct {
+	DevID      uint16
+	Name       []C.char
+	BdAddr     BdAddr
+	Flags      uint32
+	Type       uint8
+	Features   []uint8
+	PktType    uint32
+	LinkPolicy uint32
+	LinkMode   uint32
+	ACLMtu     uint16
+	ACLPkts    uint16
+	ScoMtu     uint16
+	ScoPkts    uint16
+	Stat       HciDevStats
 }
 
 // Socket implements a HCI User Channel as ReadWriteCloser.
@@ -153,7 +204,7 @@ func Up(id int) error {
 		return errors.Wrap(err, "can't create socket")
 	}
 	if err := ioctl(uintptr(fd), hciUpDevice, uintptr(id)); err != nil {
-		return errors.Wrap(err, "can't down device")
+		return errors.Wrap(err, "can't up device")
 	}
 	return unix.Close(fd)
 }
@@ -169,4 +220,34 @@ func Down(id int) error {
 		return errors.Wrap(err, "can't down device")
 	}
 	return unix.Close(fd)
+}
+
+//Info return details of an HCI device
+func Info(devID int) (*HciDevInfo, error) {
+	// Create RAW HCI Socket.
+	fd, err := unix.Socket(unix.AF_BLUETOOTH, unix.SOCK_RAW, unix.BTPROTO_HCI)
+	if err != nil {
+		return nil, errors.Wrap(err, "can't create socket")
+	}
+
+	req := HciDevInfo{
+		DevID: uint16(devID),
+		BdAddr: BdAddr{
+			B: make([]byte, 8),
+		},
+		Features: make([]uint8, 8),
+		Name:     make([]C.char, 6),
+		Stat:     HciDevStats{},
+	}
+
+	if err = ioctl(uintptr(fd), hciGetDeviceInfo, uintptr(unsafe.Pointer(&req))); err != nil {
+		return nil, errors.Wrap(err, "can't get device info")
+	}
+
+	err = unix.Close(fd)
+	if err != nil {
+		return nil, errors.Wrap(err, "can't close socket")
+	}
+
+	return &req, nil
 }
