@@ -66,7 +66,7 @@ func initXpcIDs() error {
 
 	cmdInit = 1
 
-	if utsname.Release < "17." {
+	if utsname.Release < "17." || utsname.Release > "19." {
 		// yosemite
 		cmdAdvertiseStart = 8
 		cmdAdvertiseStop = 9
@@ -162,7 +162,7 @@ func initXpcIDs() error {
 		evtUnsubscribe = 33
 		evtConfirmation = 34
 		evtATTMTU = 57
-		evtSlaveConnectionComplete = 60 // should be called params update
+		evtSlaveConnectionComplete = 60  // should be called params update
 		evtMasterConnectionComplete = 59 //not confident
 		evtIncludedServicesDiscovered = 76
 

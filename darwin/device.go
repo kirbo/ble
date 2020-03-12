@@ -406,6 +406,10 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 	args := msg(msg(event).args())
 	logger.Info("recv", "id", m.id(), "args", fmt.Sprintf("%v", m.args()))
 
+	log.Printf("m: %#v", m)
+	log.Printf("args: %#v", args)
+	log.Printf("m.id(): %#v", m.id())
+
 	switch m.id() {
 	case // Device event
 		evtStateChanged,
@@ -493,6 +497,9 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 		d.conn(args).unsubscribed(d.chars[args.attributeID()])
 
 	case evtPeripheralConnected:
+		log.Printf("d: %#v", d)
+		log.Printf("args: %#v", args)
+		log.Printf("event: %#v", event)
 		c := d.conn(args)
 		if !c.isConnected {
 			c.isConnected = true
@@ -546,6 +553,10 @@ func (d *Device) HandleXpcEvent(event xpc.Dict, err error) {
 
 func (d *Device) conn(m msg) *conn {
 	// Convert xpc.UUID to ble.UUID.
+	log.Printf("BLÖÖÖÖ1")
+	log.Printf("m: %#v", m)
+	log.Printf("m.deviceUUID(): %#v", m.deviceUUID())
+	log.Printf("BLÖÖÖÖ2")
 	a := ble.MustParse(m.deviceUUID().String())
 	d.connLock.Lock()
 	c, ok := d.conns[a.String()]
