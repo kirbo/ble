@@ -1,8 +1,8 @@
 package dev
 
 import (
-	"github.com/go-ble/ble"
-	"github.com/go-ble/ble/linux"
+	"github.com/kirbo/ble"
+	"github.com/kirbo/ble/linux"
 )
 
 // DefaultDevice ...

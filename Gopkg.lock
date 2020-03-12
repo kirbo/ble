@@ -4,7 +4,7 @@
 [[projects]]
   branch = "master"
   digest = "1:252949b3551b08b06b3aaca5c5b027d9921165fea3734c9657c45aa31b86aa48"
-  name = "github.com/go-ble/ble"
+  name = "github.com/kirbo/ble"
   packages = [
     ".",
     "darwin",
@@ -90,18 +90,18 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/go-ble/ble",
-    "github.com/go-ble/ble/darwin",
-    "github.com/go-ble/ble/examples/lib",
-    "github.com/go-ble/ble/examples/lib/dev",
-    "github.com/go-ble/ble/linux",
-    "github.com/go-ble/ble/linux/adv",
-    "github.com/go-ble/ble/linux/att",
-    "github.com/go-ble/ble/linux/gatt",
-    "github.com/go-ble/ble/linux/hci",
-    "github.com/go-ble/ble/linux/hci/cmd",
-    "github.com/go-ble/ble/linux/hci/evt",
-    "github.com/go-ble/ble/linux/hci/socket",
+    "github.com/kirbo/ble",
+    "github.com/kirbo/ble/darwin",
+    "github.com/kirbo/ble/examples/lib",
+    "github.com/kirbo/ble/examples/lib/dev",
+    "github.com/kirbo/ble/linux",
+    "github.com/kirbo/ble/linux/adv",
+    "github.com/kirbo/ble/linux/att",
+    "github.com/kirbo/ble/linux/gatt",
+    "github.com/kirbo/ble/linux/hci",
+    "github.com/kirbo/ble/linux/hci/cmd",
+    "github.com/kirbo/ble/linux/hci/evt",
+    "github.com/kirbo/ble/linux/hci/socket",
     "github.com/mgutz/logxi/v1",
     "github.com/pkg/errors",
     "github.com/raff/goble/xpc",

@@ -4,12 +4,12 @@ import (
 	"errors"
 	"time"
 
-	"github.com/go-ble/ble/linux/hci/cmd"
-	"github.com/go-ble/ble/linux/hci/evt"
+	"github.com/kirbo/ble/linux/hci/cmd"
+	"github.com/kirbo/ble/linux/hci/evt"
 )
 
 // SetConnectedHandler sets handler to be called when new connection is established.
-func (d *Device) SetConnectedHandler(f func(evt.LEConnectionComplete)) error {
+func (d *Device) SetConnectedHandler(f func(complete evt.LEConnectionComplete)) error {
 	return errors.New("Not supported")
 }
 
@@ -17,7 +17,6 @@ func (d *Device) SetConnectedHandler(f func(evt.LEConnectionComplete)) error {
 func (d *Device) SetDisconnectedHandler(f func(evt.DisconnectionComplete)) error {
 	return errors.New("Not supported")
 }
-
 
 // SetPeripheralRole configures the device to perform Peripheral tasks.
 func (d *Device) SetPeripheralRole() error {

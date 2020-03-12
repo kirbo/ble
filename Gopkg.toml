@@ -27,7 +27,7 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/go-ble/ble"
+  name = "github.com/kirbo/ble"
 
 [[constraint]]
   name = "github.com/mgutz/logxi"
