@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/kirbo/ble"
+	"github.com/kirbo/ble/linux/hci/evt"
 	"github.com/pkg/errors"
 	"github.com/raff/goble/xpc"
 
@@ -30,6 +31,9 @@ type Device struct {
 	// Only used in client/centralManager implementation
 	advHandler ble.AdvHandler
 	chConn     chan *conn
+
+	connectedHandler    func(evt.LEConnectionComplete)
+	disconnectedHandler func(evt.DisconnectionComplete)
 
 	// Only used in server/peripheralManager implementation
 	chars map[int]*ble.Characteristic

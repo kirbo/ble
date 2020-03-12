@@ -10,12 +10,14 @@ import (
 
 // SetConnectedHandler sets handler to be called when new connection is established.
 func (d *Device) SetConnectedHandler(f func(complete evt.LEConnectionComplete)) error {
-	return errors.New("Not supported")
+	d.connectedHandler = f
+	return nil
 }
 
 // SetDisconnectedHandler sets handler to be called on disconnect.
 func (d *Device) SetDisconnectedHandler(f func(evt.DisconnectionComplete)) error {
-	return errors.New("Not supported")
+	d.disconnectedHandler = f
+	return nil
 }
 
 // SetPeripheralRole configures the device to perform Peripheral tasks.
